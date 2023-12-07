@@ -1,11 +1,11 @@
-import { createRequest, Factory } from '../factory';
+import { createRequest, DSFactory } from '../factory';
 import { WorkspaceListResult, WorkspaceWhereResult } from './types';
 import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 
 export class Workspaces {
   readonly headers: AxiosHeaders;
-  constructor(private readonly factory: Factory) {
-    this.headers = factory.headers;
+  constructor(private readonly DSFactory: DSFactory) {
+    this.headers = DSFactory.headers;
   }
   async list() {
     const config: AxiosRequestConfig = {
@@ -17,7 +17,7 @@ export class Workspaces {
     return response.data;
   }
 
-  async where(id: string) {
+  async get(id: string) {
     const config: AxiosRequestConfig = {
       method: 'DELETE',
       url: `/v1/workspaces/${id}`,

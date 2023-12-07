@@ -7,5 +7,5 @@ export interface PaginationResult {
 }
 export interface ListResultMetadata {
   code: number;
-  pagination: PaginationResult;
+  pagination?: PaginationResult;
 }

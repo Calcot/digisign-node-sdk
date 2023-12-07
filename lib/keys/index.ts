@@ -1,11 +1,11 @@
-import { createRequest, Factory } from '../factory';
+import { createRequest, DSFactory } from '../factory';
 import { APIKeyDeleteResult, APIKeyListResult } from './types';
 import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 
 export class Keys {
   readonly headers: AxiosHeaders;
-  constructor(private readonly factory: Factory) {
-    this.headers = factory.headers;
+  constructor(private readonly DSFactory: DSFactory) {
+    this.headers = DSFactory.headers;
   }
   async list() {
     const config: AxiosRequestConfig = {
@@ -17,10 +17,10 @@ export class Keys {
     return response.data;
   }
 
-  async delete(id: string) {
+  async delete(key: string) {
     const config: AxiosRequestConfig = {
       method: 'DELETE',
-      url: `/v1/keys/${id}`,
+      url: `/v1/keys/${key}`,
       headers: this.headers,
     };
     const response = await createRequest<APIKeyDeleteResult>(config);

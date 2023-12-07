@@ -4,13 +4,17 @@ import { createAPIRequest } from '../utils/axios';
 import { get } from 'lodash';
 import { Keys } from '../keys';
 import { Workspaces } from '../workspaces';
+import { Webhooks } from '../webhooks';
+import { Templates } from '../templates';
 
 const USER_AGENT =
   process.env.DIGISIGN_USER_AGENT || `digisign-node:${version}`;
 
-export class Factory {
+export class DSFactory {
   readonly keys = new Keys(this);
   readonly workspaces = new Workspaces(this);
+  readonly webhooks = new Webhooks(this);
+  readonly templates = new Templates(this);
   readonly headers = initHeaders();
   constructor(
     readonly apiKey: string,
@@ -43,7 +47,7 @@ export async function createSession(key?: string) {
 
   if (!xAPIKey) {
     throw new Error(
-      'Missing API key. Pass it to the constructor `new DigiSign("ds_123")`',
+      'Missing API key. Pass it to the constructor `createSession("ds_123")`',
     );
   }
 
@@ -51,7 +55,7 @@ export async function createSession(key?: string) {
 
   const config: AxiosRequestConfig = {
     method: 'post',
-    maxBodyLength: Infinity,
+    maxBodyLength: Number.POSITIVE_INFINITY,
     url: '/v1/keys/session',
     headers,
   };
@@ -60,7 +64,7 @@ export async function createSession(key?: string) {
     const response = await this.createRequest(config);
     const token = get(response, ['data', 'meta', 'access_token']);
     const organisationId = get(response, ['data', 'data', 'organisation_id']);
-    return new Factory(xAPIKey, token, organisationId);
+    return new DSFactory(xAPIKey, token, organisationId);
   } catch (err) {
     console.log(err);
   }
