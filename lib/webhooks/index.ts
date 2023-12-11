@@ -8,9 +8,22 @@ import {
 import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 
 export class Webhooks {
-  readonly headers: AxiosHeaders;
+  headers: AxiosHeaders;
   constructor(private readonly DSFactory: DSFactory) {
     this.headers = DSFactory.headers;
+  }
+
+  workspace(workspaceId: string) {
+    const headers = this.addWSIdentifier(workspaceId);
+    const webhooks = new Webhooks(this.DSFactory);
+    webhooks.headers = headers;
+    return webhooks;
+  }
+
+  private addWSIdentifier(wsIdentifier: string) {
+    const headers = new AxiosHeaders(this.headers.toJSON());
+    headers.set('X-WS-Identifier', wsIdentifier);
+    return headers;
   }
   async list() {
     const config: AxiosRequestConfig = {

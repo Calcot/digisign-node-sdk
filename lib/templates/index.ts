@@ -3,9 +3,16 @@ import { TemplateListResult, TemplateResult } from './types';
 import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 
 export class Templates {
-  readonly headers: AxiosHeaders;
+  headers: AxiosHeaders;
   constructor(private readonly DSFactory: DSFactory) {
     this.headers = DSFactory.headers;
+  }
+
+  workspace(workspaceId: string) {
+    const headers = this.addWSIdentifier(workspaceId);
+    const ws = new Templates(this.DSFactory);
+    ws.headers = headers;
+    return ws;
   }
 
   private addWSIdentifier(wsIdentifier: string) {
@@ -13,21 +20,21 @@ export class Templates {
     headers.set('X-WS-Identifier', wsIdentifier);
     return headers;
   }
-  async list(workspaceId: string) {
+  async list() {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: '/v1/templates',
-      headers: this.addWSIdentifier(workspaceId),
+      headers: this.headers,
     };
     const response = await createRequest<TemplateListResult>(config);
     return response.data;
   }
 
-  async get(workspaceId: string, id: string) {
+  async get(id: string) {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: `/v1/templates/${id}`,
-      headers: this.addWSIdentifier(workspaceId),
+      headers: this.headers,
     };
     const response = await createRequest<TemplateResult>(config);
     return response.data;
