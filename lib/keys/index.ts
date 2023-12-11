@@ -13,6 +13,7 @@ export class Keys {
       url: '/v1/keys',
       headers: this.headers,
     };
+
     const response = await createRequest<APIKeyListResult>(config);
     return response.data;
   }

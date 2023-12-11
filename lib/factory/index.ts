@@ -1,28 +1,33 @@
 import { version } from '../../package.json';
-import { AxiosHeaders, AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosHeaders, AxiosRequestConfig } from 'axios';
 import { createAPIRequest } from '../utils/axios';
 import { get } from 'lodash';
 import { Keys } from '../keys';
 import { Workspaces } from '../workspaces';
 import { Webhooks } from '../webhooks';
 import { Templates } from '../templates';
+import { DigiError } from '../error';
 
 const USER_AGENT =
   process.env.DIGISIGN_USER_AGENT || `digisign-node:${version}`;
 
 export class DSFactory {
-  readonly keys = new Keys(this);
-  readonly workspaces = new Workspaces(this);
-  readonly webhooks = new Webhooks(this);
-  readonly templates = new Templates(this);
   readonly headers = initHeaders();
+  readonly keys: Keys;
+  readonly workspaces: Workspaces;
+  readonly webhooks: Webhooks;
+  readonly templates: Templates;
   constructor(
-    readonly apiKey: string,
-    readonly token: string,
-    readonly organisationId: string,
+    private readonly apiKey: string,
+    private readonly token: string,
+    private readonly organisationId: string,
   ) {
     this.headers.set('Authorization', `Bearer ${this.token}`);
     this.headers.set('X-O10N-Identifier', this.organisationId);
+    this.keys = new Keys(this);
+    this.workspaces = new Workspaces(this);
+    this.webhooks = new Webhooks(this);
+    this.templates = new Templates(this);
   }
 }
 
@@ -61,11 +66,14 @@ export async function createSession(key?: string) {
   };
 
   try {
-    const response = await this.createRequest(config);
+    const response = await createRequest(config);
     const token = get(response, ['data', 'meta', 'access_token']);
     const organisationId = get(response, ['data', 'data', 'organisation_id']);
     return new DSFactory(xAPIKey, token, organisationId);
   } catch (err) {
-    console.log(err);
+    throw new DigiError(
+      get(err, ['response', 'data', 'statusCode']),
+      get(err, ['response', 'data', 'message']),
+    );
   }
 }
