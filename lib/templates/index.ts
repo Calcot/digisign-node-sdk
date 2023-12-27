@@ -7,6 +7,7 @@ import {
 import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 import { isDateString } from 'class-validator';
 import { DigiError } from '../error';
+import { RequestOptions } from '../types';
 
 export class Templates {
   headers: AxiosHeaders;
@@ -26,33 +27,52 @@ export class Templates {
     headers.set('X-WS-Identifier', wsIdentifier);
     return headers;
   }
-  async list() {
+  async list(options?: RequestOptions) {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: '/v1/templates',
       headers: this.headers,
+      params: {
+        population: JSON.stringify(options?.population ?? []),
+        filter: JSON.stringify(options?.filter ?? []),
+        per_page: options?.limit ?? 10,
+        page: options?.page ?? 1,
+        sort: options?.sort,
+      },
     };
     const response = await createRequest<TemplateListResult>(config);
     return response.data;
   }
 
-  async get(id: string) {
+  async get(id: string, options?: RequestOptions) {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: `/v1/templates/${id}`,
       headers: this.headers,
+      params: {
+        population: JSON.stringify(options?.population ?? []),
+        filter: JSON.stringify(options?.filter ?? []),
+      },
     };
     const response = await createRequest<TemplateResult>(config);
     return response.data;
   }
 
-  async transform(id: string, payload: TemplateTransformRequest) {
+  async transform(
+    id: string,
+    payload: TemplateTransformRequest,
+    options?: RequestOptions,
+  ) {
     this.validateTransform(payload);
     const config: AxiosRequestConfig = {
       method: 'PUT',
       url: `/v1/templates/${id}/transform`,
       headers: this.headers,
       data: payload,
+      params: {
+        population: JSON.stringify(options?.population ?? []),
+        filter: JSON.stringify(options?.filter ?? []),
+      },
     };
     const response = await createRequest<TemplateResult>(config);
     return response.data;

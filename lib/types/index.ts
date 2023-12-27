@@ -9,3 +9,11 @@ export interface ListResultMetadata {
   code: number;
   pagination?: PaginationResult;
 }
+
+export interface RequestOptions {
+  population?: string;
+  filter?: Record<string, any>;
+  limit?: number;
+  page?: number;
+  sort?: string | number | Record<string, any>;
+}

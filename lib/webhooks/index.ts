@@ -6,6 +6,7 @@ import {
   WebhookResult,
 } from './types';
 import { AxiosHeaders, AxiosRequestConfig } from 'axios';
+import { RequestOptions } from '../types';
 
 export class Webhooks {
   headers: AxiosHeaders;
@@ -25,11 +26,18 @@ export class Webhooks {
     headers.set('X-WS-Identifier', wsIdentifier);
     return headers;
   }
-  async list() {
+  async list(options?: RequestOptions) {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: '/v1/webhooks',
       headers: this.headers,
+      params: {
+        population: JSON.stringify(options?.population ?? []),
+        filter: JSON.stringify(options?.filter ?? []),
+        per_page: options?.limit ?? 10,
+        page: options?.page ?? 1,
+        sort: options?.sort,
+      },
     };
     const response = await createRequest<WebhookListResult>(config);
     return response.data;
@@ -45,11 +53,15 @@ export class Webhooks {
     return response.data;
   }
 
-  async get(id: string) {
+  async get(id: string, options?: RequestOptions) {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: `/v1/webhooks/${id}`,
       headers: this.headers,
+      params: {
+        population: JSON.stringify(options?.population ?? []),
+        filter: JSON.stringify(options?.filter ?? []),
+      },
     };
     const response = await createRequest<WebhookResult>(config);
     return response.data;
