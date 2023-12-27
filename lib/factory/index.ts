@@ -7,6 +7,8 @@ import { Workspaces } from '../workspaces';
 import { Webhooks } from '../webhooks';
 import { Templates } from '../templates';
 import { DigiError } from '../error';
+import { SessionEnvironment, SessionOptions } from '../types';
+import { createRequest, getURI } from '../utils/fn';
 
 const USER_AGENT =
   process.env.DIGISIGN_USER_AGENT || `digisign-node:${version}`;
@@ -21,10 +23,12 @@ export class DSFactory {
     private readonly apiKey: string,
     private readonly token: string,
     private readonly organisationId: string,
+    readonly env: SessionEnvironment,
   ) {
     this.headers.set('Authorization', `Bearer ${this.token}`);
     this.headers.set('X-O10N-Identifier', this.organisationId);
     this.keys = new Keys(this);
+
     this.workspaces = new Workspaces(this);
     this.webhooks = new Webhooks(this);
     this.templates = new Templates(this);
@@ -40,15 +44,9 @@ export function initHeaders() {
   return new AxiosHeaders(value);
 }
 
-export async function createRequest<T extends Record<string, any>>(
-  config: AxiosRequestConfig,
-) {
-  return await createAPIRequest<T>(config);
-}
-
-export async function createSession(key?: string) {
+export async function createSession(options?: SessionOptions) {
   const headers = initHeaders();
-  const xAPIKey = key ?? process.env.DIGISIGN_API_KEY;
+  const xAPIKey = options?.key ?? process.env.DIGISIGN_API_KEY;
 
   if (!xAPIKey) {
     throw new Error(
@@ -58,18 +56,21 @@ export async function createSession(key?: string) {
 
   headers.set('X-API-KEY', xAPIKey);
 
+  const env = options?.environment ?? SessionEnvironment.PRODUCTION;
+
   const config: AxiosRequestConfig = {
     method: 'post',
     maxBodyLength: Number.POSITIVE_INFINITY,
     url: '/v1/keys/session',
     headers,
+    baseURL: getURI(env),
   };
 
   try {
     const response = await createRequest(config);
     const token = get(response, ['data', 'meta', 'access_token']);
     const organisationId = get(response, ['data', 'data', 'organisation_id']);
-    return new DSFactory(xAPIKey, token, organisationId);
+    return new DSFactory(xAPIKey, token, organisationId, env);
   } catch (err) {
     throw new DigiError(
       get(err, ['response', 'data', 'statusCode']),

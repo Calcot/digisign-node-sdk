@@ -1,4 +1,4 @@
-import { createRequest, DSFactory } from '../factory';
+import { DSFactory } from '../factory';
 import {
   CreateWebhook,
   WebhookDeleteResult,
@@ -7,12 +7,22 @@ import {
 } from './types';
 import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 import { RequestOptions } from '../types';
+import { createRequest, getURI } from '../utils/fn';
 
 export class Webhooks {
   headers: AxiosHeaders;
+  baseConfig: AxiosRequestConfig;
+
   constructor(private readonly DSFactory: DSFactory) {
     this.headers = DSFactory.headers;
+    this.baseConfig = {
+      baseURL: getURI(DSFactory.env),
+    };
   }
+
+  protected extendConfig = (config: AxiosRequestConfig): AxiosRequestConfig => {
+    return Object.assign({}, this.baseConfig, config);
+  };
 
   workspace(workspaceId: string) {
     const headers = this.addWSIdentifier(workspaceId);
@@ -27,7 +37,7 @@ export class Webhooks {
     return headers;
   }
   async list(options?: RequestOptions) {
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'GET',
       url: '/v1/webhooks',
       headers: this.headers,
@@ -38,23 +48,23 @@ export class Webhooks {
         page: options?.page ?? 1,
         sort: options?.sort,
       },
-    };
+    });
     const response = await createRequest<WebhookListResult>(config);
     return response.data;
   }
 
   async delete(id: string) {
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'DELETE',
       url: `/v1/webhooks/${id}`,
       headers: this.headers,
-    };
+    });
     const response = await createRequest<WebhookDeleteResult>(config);
     return response.data;
   }
 
   async get(id: string, options?: RequestOptions) {
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'GET',
       url: `/v1/webhooks/${id}`,
       headers: this.headers,
@@ -62,17 +72,17 @@ export class Webhooks {
         population: JSON.stringify(options?.population ?? []),
         filter: JSON.stringify(options?.filter ?? []),
       },
-    };
+    });
     const response = await createRequest<WebhookResult>(config);
     return response.data;
   }
 
   async rotateKey(id: string) {
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'PUT',
       url: `/v1/webhooks/${id}/rotate-key`,
       headers: this.headers,
-    };
+    });
     const response = await createRequest<WebhookResult>(config);
     return response.data;
   }
@@ -82,25 +92,25 @@ export class Webhooks {
     payload: Partial<CreateWebhook>,
     params: Record<string, any> = {},
   ) {
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'PUT',
       url: `/v1/webhooks/${id}`,
       headers: this.headers,
       params,
       data: payload,
-    };
+    });
     const response = await createRequest<WebhookResult>(config);
     return response.data;
   }
 
   async create(payload: CreateWebhook, params: Record<string, any> = {}) {
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'POST',
       url: `/v1/webhooks`,
       headers: this.headers,
       params,
       data: payload,
-    };
+    });
     const response = await createRequest<WebhookResult>(config);
     return response.data;
   }

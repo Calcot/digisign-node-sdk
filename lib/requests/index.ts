@@ -1,13 +1,24 @@
-import { createRequest, DSFactory } from '../factory';
-import { RequestListResult, RequestResult } from './types';
+import { DSFactory } from '../factory';
 import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 import { RequestOptions } from '../types';
+import { APIDefinition } from '../utils/definitions';
+import { createRequest, getURI } from '../utils/fn';
+import { RequestListResult, RequestResult } from './types';
 
-export class Requests {
+export class Requests extends APIDefinition {
   headers: AxiosHeaders;
+  protected readonly baseConfig: AxiosRequestConfig;
   constructor(private readonly DSFactory: DSFactory) {
+    super();
     this.headers = DSFactory.headers;
+    this.baseConfig = {
+      baseURL: getURI(DSFactory.env),
+    };
   }
+
+  protected extendConfig = (config: AxiosRequestConfig): AxiosRequestConfig => {
+    return Object.assign({}, this.baseConfig, config);
+  };
 
   workspace(workspaceId: string) {
     const headers = this.addWSIdentifier(workspaceId);
@@ -22,7 +33,7 @@ export class Requests {
     return headers;
   }
   async list(options?: RequestOptions) {
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'GET',
       url: '/v1/requests',
       headers: this.headers,
@@ -33,13 +44,13 @@ export class Requests {
         page: options?.page ?? 1,
         sort: options?.sort,
       },
-    };
+    });
     const response = await createRequest<RequestListResult>(config);
     return response.data;
   }
 
   async get(id: string, options?: RequestOptions) {
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'GET',
       url: `/v1/requests/${id}`,
       headers: this.headers,
@@ -47,7 +58,7 @@ export class Requests {
         population: JSON.stringify(options?.population ?? []),
         filter: JSON.stringify(options?.filter ?? []),
       },
-    };
+    });
     const response = await createRequest<RequestResult>(config);
     return response.data;
   }

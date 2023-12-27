@@ -17,3 +17,12 @@ export interface RequestOptions {
   page?: number;
   sort?: string | number | Record<string, any>;
 }
+
+export enum SessionEnvironment {
+  SANDBOX = 'sandbox',
+  PRODUCTION = 'production',
+}
+export interface SessionOptions {
+  key?: string;
+  environment?: SessionEnvironment;
+}

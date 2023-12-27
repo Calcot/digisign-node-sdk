@@ -1,4 +1,4 @@
-import { createRequest, DSFactory } from '../factory';
+import { DSFactory } from '../factory';
 import {
   TemplateListResult,
   TemplateResult,
@@ -8,12 +8,21 @@ import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 import { isDateString } from 'class-validator';
 import { DigiError } from '../error';
 import { RequestOptions } from '../types';
+import { createRequest, getURI } from '../utils/fn';
 
 export class Templates {
   headers: AxiosHeaders;
+  baseConfig: AxiosRequestConfig;
   constructor(private readonly DSFactory: DSFactory) {
     this.headers = DSFactory.headers;
+    this.baseConfig = {
+      baseURL: getURI(DSFactory.env),
+    };
   }
+
+  protected extendConfig = (config: AxiosRequestConfig): AxiosRequestConfig => {
+    return Object.assign({}, this.baseConfig, config);
+  };
 
   workspace(workspaceId: string) {
     const headers = this.addWSIdentifier(workspaceId);
@@ -28,7 +37,7 @@ export class Templates {
     return headers;
   }
   async list(options?: RequestOptions) {
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'GET',
       url: '/v1/templates',
       headers: this.headers,
@@ -39,13 +48,13 @@ export class Templates {
         page: options?.page ?? 1,
         sort: options?.sort,
       },
-    };
+    });
     const response = await createRequest<TemplateListResult>(config);
     return response.data;
   }
 
   async get(id: string, options?: RequestOptions) {
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'GET',
       url: `/v1/templates/${id}`,
       headers: this.headers,
@@ -53,7 +62,7 @@ export class Templates {
         population: JSON.stringify(options?.population ?? []),
         filter: JSON.stringify(options?.filter ?? []),
       },
-    };
+    });
     const response = await createRequest<TemplateResult>(config);
     return response.data;
   }
@@ -64,7 +73,7 @@ export class Templates {
     options?: RequestOptions,
   ) {
     this.validateTransform(payload);
-    const config: AxiosRequestConfig = {
+    const config: AxiosRequestConfig = this.extendConfig({
       method: 'PUT',
       url: `/v1/templates/${id}/transform`,
       headers: this.headers,
@@ -73,7 +82,7 @@ export class Templates {
         population: JSON.stringify(options?.population ?? []),
         filter: JSON.stringify(options?.filter ?? []),
       },
-    };
+    });
     const response = await createRequest<TemplateResult>(config);
     return response.data;
   }

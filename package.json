@@ -1,6 +1,6 @@
 {
   "name": "@usedigisign/node-sdk",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.1-alpha.1",
   "description": "Node.js library for the DigiSign API",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -21,7 +21,8 @@
     "test:watch": "jest --watch",
     "lint": "eslint --fix --ext .ts ./src",
     "format:check": "prettier --check \"**/*.{ts,tsx}\"",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "publish": "npm publish --access public"
   },
   "engines": {
     "node": ">=18"
