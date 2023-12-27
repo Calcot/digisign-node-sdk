@@ -2,7 +2,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const defaultOptions = {
-  baseURL: process.env.DIGISIGN_BASE_URL || 'https://api.usedigisign.dev',
+  baseURL: process.env.DIGISIGN_BASE_URL || 'https://api.usedigisign.com',
 };
 
 // Update instance

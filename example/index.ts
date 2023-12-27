@@ -1,8 +1,12 @@
 import { createSession } from '../lib/factory';
+import { SessionEnvironment } from '../lib/types';
 
 const onSession = async () => {
   try {
-    const ds = await createSession('ds_CSCy7yiAcIod9suap3a3LOQL7HSrQr6va');
+    const ds = await createSession({
+      key: 'ds_CSCy7yiAcIod9suap3a3LOQL7HSrQr6va',
+      environment: SessionEnvironment.SANDBOX,
+    });
     // ds_CSCy7yiAcIod9suap3a3LOQL7HSrQr6va
     // ds_fS8k5zPmjX9haMGwIJVsezT5m2OgVXMML
 

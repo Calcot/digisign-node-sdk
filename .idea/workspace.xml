@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9c8c68e-dd62-4b6a-8921-54fbbe59be0b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/utils/definitions/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/utils/fn/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/factory/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/factory/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/keys/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/keys/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/types/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/example/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +90,7 @@
       <workItem from="1702468773930" duration="24000" />
       <workItem from="1703123334315" duration="1946000" />
       <workItem from="1703524665024" duration="598000" />
-      <workItem from="1703678448300" duration="9349000" />
+      <workItem from="1703678448300" duration="10376000" />
     </task>
     <servers />
   </component>
