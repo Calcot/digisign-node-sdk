@@ -2,8 +2,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const defaultOptions = {
-  baseURL: process.env.DIGISIGN_BASE_URL || 'http://localhost:4112',
-  // baseURL: process.env.DIGISIGN_BASE_URL || 'https://api.digisign.com',
+  baseURL: process.env.DIGISIGN_BASE_URL || 'https://api.usedigisign.dev',
 };
 
 // Update instance
