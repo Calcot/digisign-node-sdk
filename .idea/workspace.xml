@@ -5,14 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9c8c68e-dd62-4b6a-8921-54fbbe59be0b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/requests/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/requests/types/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/webhooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/webhooks/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/templates/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/templates/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/templates/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/templates/types/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodyActiveAccount">
+    <option name="activeAccountId" value="a54164a6-3c4d-4e28-b72f-924d623af50d" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -25,9 +33,17 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+  </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="lxcik0i0" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2ZPDVfjPt9sjbepeLi10fvXTB68" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -35,6 +51,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RunOnceActivity.CodyProjectSettingsMigration": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
@@ -71,7 +88,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701899593002</updated>
-      <workItem from="1701899594828" duration="13006000" />
+      <workItem from="1701899594828" duration="13604000" />
+      <workItem from="1702314851145" duration="769000" />
+      <workItem from="1702468773930" duration="24000" />
+      <workItem from="1703123334315" duration="1946000" />
+      <workItem from="1703524665024" duration="598000" />
+      <workItem from="1703678448300" duration="3507000" />
     </task>
     <servers />
   </component>

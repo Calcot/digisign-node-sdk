@@ -1,5 +1,5 @@
 import { createRequest, DSFactory } from '../factory';
-import { APIKeyDeleteResult, APIKeyListResult } from './types';
+import { APIKeyDeleteResult, APIKeyListResult, APIKeyResult } from './types';
 import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 
 export class Keys {
@@ -25,6 +25,16 @@ export class Keys {
       headers: this.headers,
     };
     const response = await createRequest<APIKeyDeleteResult>(config);
+    return response.data;
+  }
+
+  async get(key: string) {
+    const config: AxiosRequestConfig = {
+      method: 'GET',
+      url: `/v1/keys/${key}`,
+      headers: this.headers,
+    };
+    const response = await createRequest<APIKeyResult>(config);
     return response.data;
   }
 }

@@ -14,6 +14,11 @@ export interface APIKeyListResult {
   data: APIKey[];
 }
 
+export interface APIKeyResult {
+  meta: ListResultMetadata;
+  data: APIKey;
+}
+
 export interface APIKeyDeleteResult {
   id: string;
 }

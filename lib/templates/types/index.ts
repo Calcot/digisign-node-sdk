@@ -26,3 +26,29 @@ export interface TemplateResult {
 export interface TemplateDeleteResult {
   id: string;
 }
+
+export class RequestMessage {
+  subject: string;
+
+  body?: string;
+}
+
+export class TemplateRecipient {
+  id: string;
+
+  name: string;
+
+  email: string;
+
+  access_code?: string;
+
+  private_message?: string;
+}
+
+export interface TemplateTransformRequest {
+  expiration?: string;
+
+  message?: RequestMessage;
+
+  recipients: TemplateRecipient[];
+}

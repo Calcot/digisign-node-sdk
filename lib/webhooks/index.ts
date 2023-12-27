@@ -45,6 +45,16 @@ export class Webhooks {
     return response.data;
   }
 
+  async get(id: string) {
+    const config: AxiosRequestConfig = {
+      method: 'GET',
+      url: `/v1/webhooks/${id}`,
+      headers: this.headers,
+    };
+    const response = await createRequest<WebhookResult>(config);
+    return response.data;
+  }
+
   async rotateKey(id: string) {
     const config: AxiosRequestConfig = {
       method: 'PUT',
