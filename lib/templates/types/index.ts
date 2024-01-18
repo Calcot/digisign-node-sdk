@@ -43,6 +43,8 @@ export class TemplateRecipient {
   access_code?: string;
 
   private_message?: string;
+
+  fillable?: Record<string, any>;
 }
 
 export interface TemplateTransformRequest {
