@@ -38,7 +38,7 @@ export class Workspaces {
 
   async get(id: string) {
     const config: AxiosRequestConfig = this.extendConfig({
-      method: 'DELETE',
+      method: 'GET',
       url: `/v1/workspaces/${id}`,
       headers: this.headers,
     });
